@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '=1(3%r!#g2pi--m&g_31_4=%nzltv*ql+q+76(4xo1sru%x6e2'
+SECRET_KEY = '5&&#-b17o6s5f%g^gd6j*&3s-ekzopznz)4$pd$m79_c(k=&b7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -54,7 +54,8 @@ ROOT_URLCONF = 'faculty_portal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        ,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,7 +77,11 @@ WSGI_APPLICATION = 'faculty_portal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': 
+        'NAME': 'fac_portal',
+        'USER': 'fac_portal',
+        'PASSWORD': 'toor+=1729',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
