@@ -75,4 +75,4 @@ Change the database settings in *settings.py* in *faculty_portal* folder
 
 **Shubhanker Jauhari** @Shubhanker99
 
-**Hari Boddu** @harboddu
+**Hari Boddu** @hariboddu
