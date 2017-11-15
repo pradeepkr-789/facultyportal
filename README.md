@@ -11,7 +11,7 @@ Install django and PostgreSQL.
 
 ### Installing
 
-Create a vitual enviroment if you have deal with multiple python projects.
+Create a vitual enviroment if you have to deal with multiple python projects.
 
 ```
 sudo apt-get install python-virtualenv
@@ -28,11 +28,11 @@ cd ~/virtualenvironment/my_new_app/bin
 source activate
 ```
 
-To install django.
+To install the requirements
 Note: Use sudo only if some errors pop up.
 
 ```
-sudo pip3 install django
+pip install -r requirements.txt
 ```
 
 Follow [these instructions](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04) to run PostgreSQL database.
