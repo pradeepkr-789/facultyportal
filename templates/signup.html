@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block title%}
+    Sign Up | IITG Faculty Portal
+{% endblock %}
+{% block script %}
+    <script>
+        function signup(event){
+
+        }
+    </script>
+{% endblock %}
+{% block mainbody %}
+    {% load static %}
+    <h1 style="text-align:center"><img src="{% static 'images/iitg_logo.svg' %}" width="64px" height="64px" class="img-fluid"> IITG Faculty Portal Sign Up</h1>
+    <script>
+    $(document).ready(
+        function() {
+    {% for elem,error in errors.items %}
+        {% if error %}
+            $("#{{ elem }}").addClass('is-invalid');
+        {% endif %}
+    {% endfor %}
+    });
+    </script>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form class="form-control" method="post" action="{% url 'signup' %}">
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="firstname">First Name</label>
+                    <input type="text" class="form-control" placeholder="First Name" name="firstname" id="firstname" required>
+                </div>
+                <div class="form-group col">
+                    <label for="lastname">Last Name</label>
+                    <input type="text" class="form-control" placeholder="Last Name" name="lastname" id="lastname" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="email">IITG Webmail Address</label>
+                    <input type="email" class="form-control" placeholder="IITG Webmail Address" name="email" id="email" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="pass">New Password</label>
+                    <input type="password" class="form-control" placeholder="New Password" name="pass" id="pass" required>
+                </div>
+                <div class="form-group col">
+                    <label for="verpass">Re-enter New Password</label>
+                    <input type="password" class="form-control" placeholder="Verify Password" name="verpass" id="verpass" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="department">Department</label>
+                    <select id="department" class="form-control" name="department">
+                        <option selected>Choose your department</option>
+                        {% for dept in departments %}
+                        <option value="{{ dept.0 }}">{{ dept.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="designation">Designation</label>
+                    <select id="designation" class="form-control" name="designation">
+                        <option selected>Choose your designation</option>
+                        {% for designation in designations %}
+                        <option value="{{ designation.0 }}">{{ designation.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="officephone">Office Phone Extension</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">+91-361-258</div>
+                        <input type="text" class="form-control" placeholder="Office Phone Extention" name="officephone" id="officephone">
+                    </div>
+                </div>
+                <div class="form-group col">
+                    <label for="homephone">Home Phone Number</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">+91-361-258</div>
+                        <input type="text" class="form-control" placeholder="Home Phone Number" name="homephone" id="homephone">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="officeadd">Enter Office Address</label>
+                    <textarea class="form-control" placeholder="Room No." name="officeadd" id="officeadd"></textarea>
+                </div>
+                <div class="form-group col">
+                    <label for="homeadd">Enter Home Address</label>
+                    <textarea class="form-control" placeholder="Home Address" name="homeadd" id="homeadd"></textarea>
+                </div>
+            </div>
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col text-right">
+                    <button type="submit" class="btn btn-outline-primary">Sign Up</button>
+                </div>
+                <div class="form-group col text-left">
+                    <button type="button" class="btn btn-primary">Login</button>
+                </div>
+            </div>
+            </form>
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+{% endblock %}
