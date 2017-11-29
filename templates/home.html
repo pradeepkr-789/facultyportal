@@ -1,10 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home | Faculty Portal</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title%}
+        Home | {{ name }} | IITG Faculty Portal
+{% endblock %}
+{% load static %}
+{% block mainbody %}
+    <img src="{% static 'images/iitg.jpg'%}" alt="IIT Guwahati" style="width:100%">
+    <h1  style="color:rgb(56, 42, 42);text-align:center;">DEPARTMENTS</h1>
+    <div class ="home-row row">
+      <div class="home-container container">
+        <img src="{% static 'images/comp.jpg'%}" alt="Computer Science" class="home-image">
+        <div class="home-overlay">
+          <a href="{% url 'department' name="cse"%}">
+            <div class="home-text">Computer Science</div>
+          </a>
+        </div>
+      </div>
 
-</body>
-</html>
+      <div class="home-container container">
+        <img src="{% static 'images/ee.jpg'%}" alt="Electrical Science" class="home-image">
+        <div class="home-overlay">
+          <a href="{% url 'department' name="eee"%}">
+            <div class="home-text">Electrical Science</div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="home-row row">
+      <div class="home-container container">
+        <img src="{% static 'images/biology.jpg'%}" alt="Biological Science" class="home-image">
+        <div class="home-overlay">
+          <a href="{% url 'department' name="bio"%}">
+            <div class="home-text">Biological Science</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="home-container container">
+        <img src="{% static 'images/chem.jpg'%}" alt="Chemical Science" class="home-image">
+        <div class="home-overlay">
+          <a href="{% url 'department' name="chem"%}">
+            <div class="home-text">Chemical Science</div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-row row">
+      <div class="home-container container">
+        <img src="{% static 'images/civilengg.jpg'%}" alt="Civil Engineering" class="home-image">
+        <div class="home-overlay">
+          <a href="{% url 'department' name="civil"%}">
+            <div class="home-text">Civil Engineering</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="home-container container">
+        <img src="{% static 'images/mechbest.jpg'%}" alt="Mechanical Engineering" class="home-image">
+        <div class="home-overlay">
+          <a href="{% url 'department' name="mech"%}">
+            <div class="home-text">Mechanical Engineering</div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="home-row row">
+      <div class="home-container container">
+        <img src="{% static 'images/phy.jpg'%}" alt="Physics" class="home-image">
+        <div class="home-overlay">
+          <a href="{% url 'department' name="phy"%}">
+            <div class="home-text">Physics</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="home-container container">
+        <img src="{% static 'images/math.jpg'%}" alt="Mathematics" class="home-image">
+        <div class="home-overlay">
+          <a href="{% url 'department' name="math"%}">
+            <div class="home-home-text">Mathematics</div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

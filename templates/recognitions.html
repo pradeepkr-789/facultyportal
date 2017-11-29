@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title%}
-        Projects | {{ name }} | IITG Faculty Portal
+        Recognitions | {{ name }} | IITG Faculty Portal
 {% endblock %}
 
 {% block mainbody %}
@@ -27,62 +27,38 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                {% for project in projects %}
+                {% for recognition in recognitions %}
                 <div class="card">
                     <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            Project Title
+                            Title
                         </div>
                         <div class="col">
-                        {{ project.title }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            Principal Investigators
-                        </div>
-                        <div class="col">
-                        {{ project.principal_investigator }}
+                        {{ recognition.title }}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            Co Principal Investigators
+                            Description
                         </div>
                         <div class="col">
-                        {{ project.co_investigator }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            Funding Agency
-                        </div>
-                        <div class="col">
-                        {{ project.funding_agency }}
+                        {{ recognition.description }}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            Start Year
+                            Given By
                         </div>
                         <div class="col">
-                        {{ project.start_year }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            End Year
-                        </div>
-                        <div class="col">
-                        {{ project.end_year }}
+                        {{ recognition.given_by }}
                         </div>
                     </div>
                     <br>
                     {% if editable %}
-                    <form method="post" action="{% url 'projectdelete' username=username %}" style="text-align: right">
+                    <form method="post" action="{% url 'recognitiondelete' username=username %}" style="text-align: right">
                         {% csrf_token %}
-                        <input name="projectid" value="{{ project.id }}" hidden>
+                        <input name="recognitionid" value="{{ recognition.id }}" hidden>
                         <button type="submit" class="btn btn-outline-danger">Delete</button>
                     </form>
                     {% endif %}
@@ -91,8 +67,8 @@
                 {% endfor %}
                 {% if editable %}
                 <div class="text-center">
-                    <a href="{% url 'projectadd' username=username %}">
-                        <button class="btn btn-primary">Add Project</button>
+                    <a href="{% url 'recognitionadd' username=username %}">
+                        <button class="btn btn-primary">Add Recognition</button>
                     </a>
                 </div>
                 <br>

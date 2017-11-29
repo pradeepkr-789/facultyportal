@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title%}
+        Add Publication | {{ name }} | IITG Faculty Portal
+{% endblock %}
+{% block mainbody %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form class="form-control" method="post" action="{% url 'publicationadd' username=username %}">
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="publicationtitle">Publication Title</label>
+                    <input type="text" class="form-control" placeholder="Enter Publication Title" name="publicationtitle" id="publicationtitle" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="desc">Description</label>
+                    <input type="text" class="form-control" placeholder="Description" name="desc" id="desc">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="contrib">Contibutors</label>
+                    <input type="text" class="form-control" placeholder="Contributors including yourself" name="contrib" id="contrib" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="publishedin">Published in</label>
+                    <input type="text" class="form-control" placeholder="Enter where it is Published in" name="publishedin" id="publishedin" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="publishtime">Published Time</label>
+                    <input type="text" class="form-control" placeholder="Enter when it is Published" name="publishtime" id="publishtime" required>
+                </div>
+            </div>
+
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col text-center">
+                    <button type="submit" class="btn btn-outline-primary">Add Publication</button>
+                </div>
+            </div>
+            </form>
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+{% endblock %}

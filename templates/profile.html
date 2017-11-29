@@ -3,15 +3,98 @@
     {{ name }} | IITG Faculty Portal
 {% endblock %}
 {% block mainbody %}
-    {{ email }} |
-    {{ name }} |
-    {% for workexp in workexperience %}
-        {{ workexp.job_title }} |
-        {{ workexp.organisation }} |
-        {{ workexp.start_year }} |
-        {{ workexp.end_year }} |
-    {% endfor %}
-    {{ logged_in }} |
-    {{ editable }}
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'profile' username %}">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'experiences' username %}">Experiences</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'projects' username %}">Projects</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'publications' username %}">Publications</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'recognitions' username %}">Recognitions</a>
+      </li>
+    </ul>
+    <br>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="{{ profile.userimage.url }}" width="128" height="128" class="img-thumbnail">
+                        <div class="name">
+                            {{ name }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        Office Address<br>
+                        {{ profile.office_address }}<br>
+                        +91 361 258{{ profile.office_phone }}<br>
+                        {{ email }}<br>
+                    </div>
+                    <div class="col-md-4">
+                        Home Address<br>
+                        {{ profile.home_address }}<br>
+                        +91 361 258{{ profile.home_phone }}<br>
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+            <div class="card">
+                <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <div style="font-size: large">
+                        Research Interest
+                        </div><br>
+                        {{ profile.research_interest }}
+                    </div>
+                    <div class="col">
+                        <div style="font-size: large">
+                        Primary Research Group
+                        </div><br>
+                        {{ profile.primary_research_group }}
+                    </div>
+                </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="card">
+                <div class="card-body">
+                    <div style="font-size: large">
+                        Education
+                    </div>
+                    <div class="row" style="">
+                        Education in PhD<br>
+                        {{ profile.education_phd }}
+                    </div>
+                    <div class="row" style="">
+                        Education in Masters<br>
+                        {{ profile.education_masters }}
+                    </div>
+                    <div class="row" style="">
+                        Education in Batchelor<br>
+                        {{ profile.education_batchelor }}
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            {% if logged_in %}
+            <div class="text-center">
+                <a href="{% url 'profileedit' username=username %}">
+                    <button class="btn btn-primary">Edit Profile</button>
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-md-2"></div>
+    </div>
 
 {% endblock %}

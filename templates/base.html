@@ -14,11 +14,55 @@
         Home | IITG Faculty Portal
     {% endblock %}
     </title>
+
     <style>
         body{
             font-family:'Product Sans', Arial, sans-serif;
         }
-    </style>
+        .home-container {
+          position: relative;
+          width: 30%;
+        }
+
+        .home-image {
+          width: 100%;
+          overflow-x: auto;
+        }
+
+        .home-overlay {
+          position: absolute;
+          top:0;
+          bottom:0;
+          left: 0;
+          right: 0;
+          height: 100%;
+          width: 100%;
+          opacity: 0;
+          transition: .5s ease;
+          background-color: #000000;
+        }
+
+        .home-container:hover .overlay {
+          opacity: 0.90;
+        }
+        .home-container{
+          padding-left:0;
+          padding-right:0;
+          padding-top:30px;
+          padding-bottom:30px;
+        }
+        .home-text {
+          color: white;
+          font-size :  25px;
+          position: absolute;
+          text-align: center;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          -ms-transform: translate(-50%, -50%);
+        }
+
+  </style>
 </head>
 <body>
 {% block script %}
