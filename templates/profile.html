@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title%}
+    {{ name }} | IITG Faculty Portal
+{% endblock %}
+{% block mainbody %}
+    {{ email }} |
+    {{ name }} |
+    {% for workexp in workexperience %}
+        {{ workexp.job_title }} |
+        {{ workexp.organisation }} |
+        {{ workexp.start_year }} |
+        {{ workexp.end_year }} |
+    {% endfor %}
+    {{ logged_in }} |
+    {{ editable }}
+
+{% endblock %}

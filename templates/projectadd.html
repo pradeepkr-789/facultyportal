@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title%}
+        Add Project | {{ name }} | IITG Faculty Portal
+{% endblock %}
+{% block mainbody %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form class="form-control" method="post" action="{% url 'projectadd' username=username %}" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="projecttitle">Project Title</label>
+                    <input type="text" class="form-control" placeholder="Enter Project Title" name="projecttitle" id="projecttitle" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="pi">Principal Investigators</label>
+                    <input type="text" class="form-control" placeholder="Principal Investigators" name="pi" id="pi" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="copi">Co Principal Investigators</label>
+                    <input type="text" class="form-control" placeholder="Co Principal Investigators" name="copi" id="copi">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="fundingagency">Project Funding Agency</label>
+                    <input type="text" class="form-control" placeholder="Enter Project Funding Agency" name="fundingagency" id="fundingagency" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="startyear">Start Year</label>
+                    <input type="text" class="form-control" placeholder="Enter Project Start Year" name="startyear" id="startyear" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="endyear">End Year</label>
+                    <input type="text" class="form-control" placeholder="Enter Project End Year" name="endyear" id="endyear">
+                </div>
+            </div>
+
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col text-center">
+                    <button type="submit" class="btn btn-outline-primary">Add Project</button>
+                </div>
+            </div>
+            </form>
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+{% endblock %}

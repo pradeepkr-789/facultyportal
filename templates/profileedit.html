@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block title%}
+        Profile Edit | {{ name }} | IITG Faculty Portal
+{% endblock %}
+{% block mainbody %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form class="form-control" method="post" action="{% url 'profileedit' username=username %}" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="form-group col">
+                    <img src="{{ faculty_profile.userimage.url }}" width="64px" height="64px" alt="Upload your image" class="img-thumbnail">
+                </div>
+                <div class="form-group col">
+                    <label for="upload">Upload new image</label>
+                    <input type="file" name="newimage">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="firstname">First Name</label>
+                    <input type="text" class="form-control" placeholder="First Name" name="firstname" id="firstname" required value="{{ firstname }}">
+                </div>
+                <div class="form-group col">
+                    <label for="lastname">Last Name</label>
+                    <input type="text" class="form-control" placeholder="Last Name" name="lastname" id="lastname" required value="{{ lastname }}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="designation">Designation</label>
+                    <select id="designation" class="form-control" name="designation">
+                        <option>Choose your designation</option>
+                        {% for designation in designations %}
+                            {% if designation.0 == faculty_profile.designation %}
+                                <option selected="selected" value="{{ designation.0 }}">{{ designation.1 }}</option>
+                            {% else %}
+                                <option value="{{ designation.0 }}">{{ designation.1 }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="officephone">Office Phone Extension</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">+91-361-258</div>
+                        <input type="text" class="form-control" placeholder="Office Phone Extention" name="officephone" id="officephone" value="{{ faculty_profile.office_phone|slice:"-4:" }}">
+                    </div>
+                </div>
+                <div class="form-group col">
+                    <label for="homephone">Home Phone Number</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">+91-361-258</div>
+                        <input type="text" class="form-control" placeholder="Home Phone Number" name="homephone" id="homephone" value="{{ faculty_profile.home_phone|slice:"-4:" }}">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="officeadd">Enter Office Address</label>
+                    <textarea class="form-control" placeholder="Office Address" name="officeadd" id="officeadd">{{ faculty_profile.office_address }}</textarea>
+                </div>
+                <div class="form-group col">
+                    <label for="homeadd">Enter Home Address</label>
+                    <textarea class="form-control" placeholder="Home Address" name="homeadd" id="homeadd">{{ faculty_profile.home_address }}</textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="researchintrst">Research Interest</label>
+                    <textarea type="text" class="form-control" placeholder="Enter your Research Interest" name="researchinterest" id="researchintrst">{% if faculty_profile.research_interest %}{{ faculty_profile.research_interest }}{% else %}{% endif %}</textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="researchintrst">Primary Research Group</label>
+                    <textarea type="text" class="form-control" placeholder="Enter your Primary Research Group" name="primaryresearchgroup" id="primresearch">{% if faculty_profile.primary_research_group %}{{ faculty_profile.primary_research_group }}{% else %}{% endif %}</textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="aboutphd">About your PhD</label>
+                    <input type="text" class="form-control" placeholder="About your PhD" name="aboutphd" id="aboutphd" value="{% if faculty_profile.education_phd %}{{ faculty_profile.education_phd }}{% endif %}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="aboutmasters">About your Masters Degree</label>
+                    <input type="text" class="form-control" placeholder="About your Masters" name="aboutmasters" id="aboutmasters" value="{% if faculty_profile.education_masters %}{{ faculty_profile.education_masters }}{% endif %}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="aboutbatchelor">About your Batchelor Degree</label>
+                    <input type="text" class="form-control" placeholder="About your PhD" name="aboutbatchelor" id="aboutbatchelor" value="{% if faculty_profile.education_batchelor %}{{ faculty_profile.education_batchelor }}{% endif %}">
+                </div>
+            </div>
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col text-center">
+                    <button type="submit" class="btn btn-outline-primary">Save</button>
+                </div>
+            </div>
+            </form>
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+
+{% endblock %}
