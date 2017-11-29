@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title%}
+        Add Recognition | {{ name }} | IITG Faculty Portal
+{% endblock %}
+{% block mainbody %}
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'profile' username %}">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'experiences' username %}">Experiences</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'projects' username %}">Projects</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'publications' username %}">Publications</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'recognitions' username %}">Recognitions</a>
+      </li>
+    </ul>
+    <br>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form class="form-control" method="post" action="{% url 'recognitionadd' username=username %}">
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="recognitiontitle"> Recognition Title </label>
+                    <input type="text" class="form-control" placeholder="Enter Recognition Title" name="recognitiontitle" id="recognitiontitle" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="desc">Description</label>
+                    <input type="text" class="form-control" placeholder="Description" name="desc" id="desc">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="givenby"> Recognition Given By </label>
+                    <input type="text" class="form-control" placeholder="Recognition Given By" name="givenby" id="givenby" required>
+                </div>
+            </div>
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col text-center">
+                    <button type="submit" class="btn btn-outline-primary">Add Recognition</button>
+                </div>
+            </div>
+            </form>
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+{% endblock %}

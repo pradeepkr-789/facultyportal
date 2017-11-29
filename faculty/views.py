@@ -10,10 +10,23 @@ from .models import faculty_profile,student,department,publication,project,recog
 
 
 def home(request):
-    if request.user and not request.user.is_anonymous:
-        return HttpResponse("logged in")
-    else:
-        return HttpResponse("not logged in")
+    if request.method == 'GET':
+        if request.user and not request.user.is_anonymous:
+            logged_in = True
+        else:
+            logged_in = False
+        if logged_in:
+            context = {
+                'logged_in': logged_in,
+                'name':request.user.get_full_name,
+                'username':request.user.username
+            }
+            return render(request,'home.html', context)
+        else:
+            context = {
+                'logged_in': logged_in,
+            }
+            return render(request, 'home.html', context)
 
 def logout(request):
     auth_logout(request)
@@ -126,9 +139,10 @@ def profile(request, username):
         context = {
             'editable': editable,
             'logged_in':logged_in,
-            'faculty_profile':fac_profile,
+            'profile':fac_profile,
             'email':user.email,
-            'name':user.get_full_name
+            'name':user.get_full_name,
+            'username': user.username
         }
         return render(request,'profile.html',context)
     elif request.method == 'POST':
@@ -273,9 +287,11 @@ def projectadd(request,username):
             'editable': editable,
             'logged_in': logged_in,
             'projects': projects,
-            'name': user.get_full_name
+            'name': user.get_full_name,
+            'username': user.username
         }
         return render(request,'projects.html', context)
+
 def projectdel(request,username):
     if request.method == 'GET':
         raise Http404
@@ -294,14 +310,15 @@ def projectdel(request,username):
         projectid = request.POST.get('projectid')
         del_project = project.objects.all().filter(id=projectid).first()
         if del_project:
-            if editable:
+            if del_project.user.id == request.user.id:
                 del_project.delete()
                 projects = project.objects.filter(user=user.id)
                 context = {
                     'editable': editable,
                     'logged_in': logged_in,
                     'projects': projects,
-                    'name': user.get_full_name
+                    'name': user.get_full_name,
+                    'username': user.username
                 }
                 return render(request, 'projects.html', context)
             else:
@@ -310,7 +327,8 @@ def projectdel(request,username):
                     'editable': editable,
                     'logged_in': logged_in,
                     'projects': projects,
-                    'name': user.get_full_name
+                    'name': user.get_full_name,
+                    'username': user.username
                 }
                 return render(request, 'projects.html', context)
         else:
@@ -319,6 +337,412 @@ def projectdel(request,username):
                 'editable': editable,
                 'logged_in': logged_in,
                 'projects': projects,
-                'name': user.get_full_name
+                'name': user.get_full_name,
+                'username': user.username
             }
             return render(request, 'projects.html', context)
+
+def publicationsview(request,username):
+    if request.method == 'GET':
+        user = User.objects.filter(username=username).first()
+        if not user:
+            raise Http404
+        if user.username == request.user.username:
+            editable = True
+        else:
+            editable = False
+        if request.user and not request.user.is_anonymous:
+            logged_in = True
+        else:
+            logged_in = False
+        publications = publication.objects.filter(user=user.id)
+
+        context = {
+            'editable':editable,
+            'logged_in': logged_in,
+            'publications': publications,
+            'name':user.get_full_name,
+            'username':username
+        }
+        return render(request,'publications.html', context)
+    elif request.method == 'POST':
+        raise Http404
+
+def publicationadd(request,username):
+    if request.method == 'GET':
+        user = User.objects.filter(username=username).first()
+        if not user:
+            raise Http404
+        if user.username == request.user.username:
+            editable = True
+        else:
+            editable = False
+        if request.user and not request.user.is_anonymous:
+            logged_in = True
+        else:
+            logged_in = False
+        context = {
+            'editable':editable,
+            'logged_in': logged_in,
+            'name':user.get_full_name,
+            'username':user.username
+        }
+        return render(request,'publicationadd.html', context)
+    elif request.method == 'POST':
+        user = User.objects.filter(username=username).first()
+        if not user:
+            raise Http404
+        if user.username == request.user.username:
+            editable = True
+        else:
+            editable = False
+        if request.user and not request.user.is_anonymous:
+            logged_in = True
+        else:
+            logged_in = False
+        publicationtitle = request.POST.get('publicationtitle')
+        desc = request.POST.get('desc')
+        contrib = request.POST.get('contrib')
+        publishedin = request.POST.get('publishedin')
+        publishedtime = request.POST.get('publishtime')
+
+        new_publication = publication(user=user,title=publicationtitle, description=desc, contributors=contrib, published_in=publishedin, time_published=publishedtime)
+        new_publication.save()
+
+        publications = publication.objects.filter(user=user.id)
+        context = {
+            'editable': editable,
+            'logged_in': logged_in,
+            'publications': publications,
+            'name': user.get_full_name,
+            'username':user.username
+        }
+        return render(request,'projects.html', context)
+
+def publicationdel(request, username):
+    if request.method == 'GET':
+        raise Http404
+    elif request.method == 'POST':
+        user = User.objects.filter(username=username).first()
+        if not user:
+            raise Http404
+        if user.username == request.user.username:
+            editable = True
+        else:
+            editable = False
+        if request.user and not request.user.is_anonymous:
+            logged_in = True
+        else:
+            logged_in = False
+        publicationid = request.POST.get('publicationid')
+        del_publication = publication.objects.all().filter(id=publicationid).first()
+        if del_publication:
+            if del_publication.user.id == request.user.id:
+                del_publication.delete()
+                publications = publication.objects.filter(user=user.id)
+                context = {
+                    'editable': editable,
+                    'logged_in': logged_in,
+                    'publications': publications,
+                    'name': user.get_full_name,
+                    'username': user.username
+                }
+                return render(request, 'publications.html', context)
+            else:
+                publications = publication.objects.filter(user=user.id)
+                context = {
+                    'editable': editable,
+                    'logged_in': logged_in,
+                    'publications': publications,
+                    'name': user.get_full_name,
+                    'username': user.username
+                }
+                return render(request, 'publications.html', context)
+        else:
+            publications = publication.objects.filter(user=user.id)
+            context = {
+                'editable': editable,
+                'logged_in': logged_in,
+                'publications': publications,
+                'name': user.get_full_name,
+                'username': user.username
+            }
+            return render(request, 'publications.html', context)
+
+def recognitionsview(request,username):
+    if request.method == 'GET':
+        user = User.objects.filter(username=username).first()
+        if not user:
+            raise Http404
+        if user.username == request.user.username:
+            editable = True
+        else:
+            editable = False
+        if request.user and not request.user.is_anonymous:
+            logged_in = True
+        else:
+            logged_in = False
+        recognitions = recognition.objects.filter(user=user.id)
+
+        context = {
+            'editable':editable,
+            'logged_in': logged_in,
+            'recognitions': recognitions,
+            'name':user.get_full_name,
+            'username':username
+        }
+        return render(request,'recognitions.html', context)
+    elif request.method == 'POST':
+        raise Http404
+
+def recognitionadd(request,username):
+    if request.method == 'GET':
+        user = User.objects.filter(username=username).first()
+        if not user:
+            raise Http404
+        if user.username == request.user.username:
+            editable = True
+        else:
+            editable = False
+        if request.user and not request.user.is_anonymous:
+            logged_in = True
+        else:
+            logged_in = False
+        context = {
+            'editable':editable,
+            'logged_in': logged_in,
+            'name':user.get_full_name,
+            'username':user.username
+        }
+        return render(request,'recognitionadd.html', context)
+    elif request.method == 'POST':
+        user = User.objects.filter(username=username).first()
+        if not user:
+            raise Http404
+        if user.username == request.user.username:
+            editable = True
+        else:
+            editable = False
+        if request.user and not request.user.is_anonymous:
+            logged_in = True
+        else:
+            logged_in = False
+        recognitiontitle = request.POST.get('recognitiontitle')
+        desc = request.POST.get('desc')
+        givenby = request.POST.get('givenby')
+        new_recognition = recognition(user=user,title=recognitiontitle, description=desc, given_by=givenby)
+        new_recognition.save()
+
+        recognitions = recognition.objects.filter(user=user.id)
+        context = {
+            'editable': editable,
+            'logged_in': logged_in,
+            'recognitions': recognitions,
+            'name': user.get_full_name,
+            'username':user.username
+        }
+        return render(request,'recognitions.html', context)
+
+def recognitiondel(request, username):
+    if request.method == 'GET':
+        raise Http404
+    elif request.method == 'POST':
+        user = User.objects.filter(username=username).first()
+        if not user:
+            raise Http404
+        if user.username == request.user.username:
+            editable = True
+        else:
+            editable = False
+        if request.user and not request.user.is_anonymous:
+            logged_in = True
+        else:
+            logged_in = False
+        recognitionid = request.POST.get('recognitionid')
+        del_recognition = recognition.objects.all().filter(id=recognitionid).first()
+        if del_recognition:
+            if del_recognition.user.id == request.user.id:
+                del_recognition.delete()
+                recognitions = recognition.objects.filter(user=user.id)
+                context = {
+                    'editable': editable,
+                    'logged_in': logged_in,
+                    'recognitions': recognitions,
+                    'name': user.get_full_name,
+                    'username': user.username
+                }
+                return render(request, 'recognitions.html', context)
+            else:
+                recognitions = recognition.objects.filter(user=user.id)
+                context = {
+                    'editable': editable,
+                    'logged_in': logged_in,
+                    'recognitions': recognitions,
+                    'name': user.get_full_name,
+                    'username': user.username
+                }
+                return render(request, 'recognitions.html', context)
+        else:
+            recognitions = recognition.objects.filter(user=user.id)
+            context = {
+                'editable': editable,
+                'logged_in': logged_in,
+                'recognitions': recognitions,
+                'name': user.get_full_name,
+                'username': user.username
+            }
+            return render(request, 'recognitions.html', context)
+
+def experiencesview(request,username):
+    if request.method == 'GET':
+        user = User.objects.filter(username=username).first()
+        if not user:
+            raise Http404
+        if user.username == request.user.username:
+            editable = True
+        else:
+            editable = False
+        if request.user and not request.user.is_anonymous:
+            logged_in = True
+        else:
+            logged_in = False
+        experiences = workexperience.objects.filter(user=user.id)
+
+        context = {
+            'editable':editable,
+            'logged_in': logged_in,
+            'experiences': experiences,
+            'name':user.get_full_name,
+            'username':username
+        }
+        return render(request,'experiences.html', context)
+    elif request.method == 'POST':
+        raise Http404
+
+def experienceadd(request,username):
+    if request.method == 'GET':
+        user = User.objects.filter(username=username).first()
+        if not user:
+            raise Http404
+        if user.username == request.user.username:
+            editable = True
+        else:
+            editable = False
+        if request.user and not request.user.is_anonymous:
+            logged_in = True
+        else:
+            logged_in = False
+        context = {
+            'editable':editable,
+            'logged_in': logged_in,
+            'name':user.get_full_name,
+            'username':user.username
+        }
+        return render(request,'experienceadd.html', context)
+    elif request.method == 'POST':
+        user = User.objects.filter(username=username).first()
+        if not user:
+            raise Http404
+        if user.username == request.user.username:
+            editable = True
+        else:
+            editable = False
+        if request.user and not request.user.is_anonymous:
+            logged_in = True
+        else:
+            logged_in = False
+        job_title = request.POST.get('job_title')
+        organisation = request.POST.get('organisation')
+        startyear = request.POST.get('startyear')
+        endyear = request.POST.get('endyear')
+        new_workexperience = workexperience(user=user,job_title=job_title, organisation=organisation, start_year=startyear, end_year=endyear)
+        new_workexperience.save()
+
+        experiences = workexperience.objects.filter(user=user.id)
+        context = {
+            'editable': editable,
+            'logged_in': logged_in,
+            'experiences': experiences,
+            'name': user.get_full_name,
+            'username':user.username
+        }
+        return render(request,'experiences.html', context)
+
+def experiencedel(request, username):
+    if request.method == 'GET':
+        raise Http404
+    elif request.method == 'POST':
+        user = User.objects.filter(username=username).first()
+        if not user:
+            raise Http404
+        if user.username == request.user.username:
+            editable = True
+        else:
+            editable = False
+        if request.user and not request.user.is_anonymous:
+            logged_in = True
+        else:
+            logged_in = False
+        experienceid = request.POST.get('experienceid')
+        del_experience = workexperience.objects.all().filter(id=experienceid).first()
+        if del_experience:
+            if del_experience.user.id == request.user.id:
+                del_experience.delete()
+                experiences = workexperience.objects.filter(user=user.id)
+                context = {
+                    'editable': editable,
+                    'logged_in': logged_in,
+                    'experiences': experiences,
+                    'name': user.get_full_name,
+                    'username': user.username
+                }
+                return render(request, 'experiences.html', context)
+            else:
+                experiences = workexperience.objects.filter(user=user.id)
+                context = {
+                    'editable': editable,
+                    'logged_in': logged_in,
+                    'experiences': experiences,
+                    'name': user.get_full_name,
+                    'username': user.username
+                }
+                return render(request, 'experiences.html', context)
+        else:
+            experiences = workexperience.objects.filter(user=user.id)
+            context = {
+                'editable': editable,
+                'logged_in': logged_in,
+                'experiences': experiences,
+                'name': user.get_full_name,
+                'username': user.username
+            }
+            return render(request, 'experiences.html', context)
+
+def departmentview(request,name):
+    if request.method == 'GET':
+        user = request.user
+        if request.user and not request.user.is_anonymous:
+            logged_in = True
+        else:
+            logged_in = False
+        department_obj = department.objects.filter(name=name).first()
+
+        if department_obj:
+            profiles_users=[]
+            professors=department_obj.professors.all()
+            for i in range(professors.count()):
+                profile = faculty_profile.objects.filter(user=professors[i].id).first()
+                profiles_users.append((professors[i],profile))
+            designation_values = dict(faculty_profile.designation_values)
+            context = {
+                'logged_in': logged_in,
+                'department': department_obj,
+                'profiles_users':profiles_users,
+                'designations':designation_values,
+                'username':user.username
+            }
+            return render(request,'department.html', context)
+        else:
+            raise Http404
+    elif request.method == 'POST':
+        raise Http404

@@ -3,7 +3,26 @@
         Profile Edit | {{ name }} | IITG Faculty Portal
 {% endblock %}
 {% block mainbody %}
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'profile' username %}">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'experiences' username %}">Experiences</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'projects' username %}">Projects</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'publications' username %}">Publications</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'recognitions' username %}">Recognitions</a>
+      </li>
+    </ul>
+    <br>
     <div class="row">
+
         <div class="col-md-6 offset-md-3">
             <form class="form-control" method="post" action="{% url 'profileedit' username=username %}" enctype="multipart/form-data">
             <div class="form-row">
